@@ -91,7 +91,9 @@ def contact():
 	if request.method == 'GET':
 		return render_template('contact.html')
 	elif request.method == 'POST':
-		return render_template('contact.html')
+		data = {'name': request.form['name'], 'email': request.form['email'], 'phone': request.form['phone'], 'message': request.form['message']}
+		r = request.post("https://jordan-chau.herokuapp.com/contact_me.php", data)
+		return render_template('contact.html', result=data)
 
 @app.route('/blog', methods=['GET'])
 def blog_page():
