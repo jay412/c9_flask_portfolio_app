@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect
+from subprocess import call
 import datetime
 import pytz # timezone
 import requests
@@ -13,10 +14,9 @@ app = Flask(__name__)
 def home_page():
 	return render_template('index.html')
 
-# @app.route('/<name>')
-#def profile(name):
-#	return render_template('index.html', name=name)
-
+@app.route('/<name>')
+def profile(name):
+		return render_template('index.html', name=name)
 
 @app.route('/add_numbers', methods=['GET','POST'])
 def add_numbers_post():
@@ -92,7 +92,7 @@ def contact():
 		return render_template('contact.html')
 	elif request.method == 'POST':
 		data = {'name': request.form['name'], 'email': request.form['email'], 'phone': request.form['phone'], 'message': request.form['message']}
-		r = request.post("https://jordan-chau.herokuapp.com/contact_me.php", data)
+		call(['php', 'contact_me.php', data])
 		return render_template('contact.html', result=data)
 
 @app.route('/blog', methods=['GET'])
